@@ -89,6 +89,12 @@ typings/
 # Webpack
 .webpack/
 
+# CRA
+.build/
+
 # Images
 *.psd
 Caprese-1.jpg
+Crostini_by_Charles_Haynes.jpg
+Penne_all'arrabbiata.jpg
+aglio-olio-with-parsley.jpg
