@@ -5,12 +5,13 @@ import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 //// App Bar
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Typography, AppBar, Toolbar, Grid, Button } from '@material-ui/core';
-import { Card, CardActionArea, CardContent, CardMedia, CardActions } from '@material-ui/core';
+import { Typography, AppBar, Toolbar, Grid } from '@material-ui/core';
 import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
 
 // User
-import Caprese from '../../images/Caprese-1-refined@800.png';
+import MenuItemsInfo from '../../MenuItemsInfo';
+import ItemCard from '../elements/ItemCard';
+
 
 // Colors
 const SystemColor = {
@@ -26,7 +27,7 @@ const SystemColor = {
     Red: deepOrange[900],
     Green: teal[900],
     ExtraLightYellow: amber[50]
-}
+};
 
 // Material-UI Custom Theme Application
 // Default values: https://material-ui.com/customization/default-theme/
@@ -101,29 +102,11 @@ const useStyles = makeStyles( ( theme: Theme ) =>
         },
         // Grid Container
         gridContainer: {
-            margin: theme.spacing( 2 )
-        },
-        // Card
-        card: {
-            backgroundColor: SystemColor.ExtraLightYellow
-        },
-        // Card Class
-        cardClass: {
-            fontSize: 14,
-            userSelect: 'none'
-        },
-        // Card Title
-        cardTitle: {
-            userSelect: 'none'
-        },
-        // Card Subtitle
-        cardSubtitle: {
-            marginBottom: 12,
-            userSelect: 'none'
-        },
-        // Card Media
-        cardMedia: {
-            height: 220
+            width: '100%',
+            marginTop: theme.spacing( 6 ),
+            marginRight: theme.spacing( 0 ),
+            marginBottom: theme.spacing( 2 ),
+            marginLeft: theme.spacing( 0 )
         }
     })
 );
@@ -137,52 +120,41 @@ const MainView = () => {
     // States
 
     // Handlers
-    const onClickItem = () => {
-        console.log("Clicked item");
+    const onClickItem = (id) => {
+        console.log(`Clicked item (id: ${id})`);
     };
 
     // Variables
 
     // JSX
+    //// Sub
+    const GridItems = MenuItemsInfo.map((info, index) => {
+        return (
+            <Grid key={ info.id } item xs={ 3 }
+                  component="article" role="article" aria-posinset={ index + 1 } aria-setsize={ MenuItemsInfo.length }>
+              <ItemCard info={ info } onClick={ onClickItem } />
+            </Grid>
+        );
+    });
+
+    //// Main
     return (
         <ThemeProvider theme={ customTheme }>
           <div className={ classes.root }
                role="application">
-            <AppBar className={ classes.appBar } position="static" elevation={ 2 }
-                    role="navigation">
-              <Toolbar className={ classes.toolBar } variant="dense">
+            { /* Header */ }
+            <AppBar className={ classes.appBar } position="fixed" elevation={ 2 }>
+              <Toolbar className={ classes.toolBar } variant="dense"
+                       component="nav" role="navigation" aria-label="メニューバー">
                 <Typography className={ classes.toolBarTitle } variant="h6" color="inherit">
                   Menu
                 </Typography>
               </Toolbar>
             </AppBar>
+            { /* Content */ }
             <Grid className={ classes.gridContainer } container spacing={ 2 }
-                  role="list">
-              <Grid item xs={ 3 }
-                    role="listitem">
-                <Card className={ classes.card } elevation={ 3 }>
-                  <CardMedia className={ classes.cardMedia }  title="Caprese" image={ Caprese }
-                             role="img" />
-                  <CardContent role="document">
-                    <Typography className={ classes.cardClass } color="textSecondary" gutterBottom>
-                      前菜 - Antipasto
-                    </Typography>
-                    <Typography className={ classes.cardTitle } variant="h5" component="h2">
-                      カプレーゼ
-                    </Typography>
-                    <Typography className={ classes.cardSubtitle } color="textSecondary">
-                      Insalata Caprese
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                      新鮮なトマトとモッツァレラにバジリコを添え、オリーブオイルで味付けしたシンプルな一品
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button color="primary" onClick={ onClickItem }
-                            role="button">詳しく</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
+                  component="main" role="main">
+              { GridItems }
             </Grid>
           </div>
         </ThemeProvider>
