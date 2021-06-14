@@ -90,7 +90,7 @@ typings/
 .webpack/
 
 # CRA
-.build/
+build/
 
 # Images
 *.psd
