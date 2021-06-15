@@ -4,9 +4,29 @@ import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography, Button } from '@material-ui/core';
 import { Card, CardContent, CardMedia, CardActions } from '@material-ui/core';
+import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
+// FontAwesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPepperHot } from '@fortawesome/free-solid-svg-icons'
 
 // User
 
+
+// Colors
+const SystemColor = {
+    Primary: deepOrange[900],
+    Secondary: teal[900],
+    PrimaryText: grey[50],
+    SecondaryText: grey[50],
+    White: grey[50],
+    Black: grey[900],
+    LightGrey: grey[100],
+    DarkGrey: grey[300],
+    ExtraDarkGrey: grey[500],
+    Red: deepOrange[900],
+    Green: teal[900],
+    ExtraLightYellow: amber[50]
+};
 
 // スタイルの修正（このファイルのみ）
 const useStyles = makeStyles( ( theme: Theme ) =>
@@ -35,6 +55,10 @@ const useStyles = makeStyles( ( theme: Theme ) =>
         // Card Media
         cardMedia: {
             height: 200
+        },
+        // Card Icon Text
+        cardIconText: {
+            marginTop: theme.spacing( 1 )
         }
     })
 );
@@ -51,7 +75,15 @@ const ItemCard = (props) => {
 
     // Variables
 
+
     // JSX
+    //// Sub
+    let pepperIcons = [];
+    for ( let i = 0; i < props.info.pepperLevel; i++ ) {
+        pepperIcons.push(<FontAwesomeIcon icon={ faPepperHot } color={ SystemColor.Red } size="lg" />);
+    }
+
+    //// Main
     return (
         <Card elevation={ 4 }>
           <section role="banner">
@@ -70,6 +102,9 @@ const ItemCard = (props) => {
               </Typography>
               <Typography variant="body2" component="p">
                 { props.info.description }
+              </Typography>
+              <Typography className={ classes.cardIconText } align="right" variant="subtitle2" component="p">
+                { pepperIcons }
               </Typography>
             </CardContent>
           </section>
