@@ -2,7 +2,7 @@
 import React from 'react';
 // Material-UI
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, Checkbox, Grid } from '@material-ui/core';
 import { Card, CardContent, CardMedia, CardActions } from '@material-ui/core';
 import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
 // FontAwesome
@@ -109,8 +109,15 @@ const ItemCard = (props) => {
             </CardContent>
           </section>
           <CardActions role="form">
-            <Button color="primary" onClick={ () => { props.onClick(props.info.id) } }
-                    role="button">詳しく</Button>
+            <Grid container spacing={ 2 } justify="space-between" alignItems="center">
+              <Grid item>
+                <Checkbox color="primary" inputProps={{ 'aria-label': 'select item' }}/>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" size="small" onClick={ () => { props.onClick(props.info.id) } }
+                        role="button">詳しく</Button>
+              </Grid>
+            </Grid>
           </CardActions>
         </Card>
     );
