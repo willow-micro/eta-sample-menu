@@ -5,7 +5,7 @@ import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 //// App Bar
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Typography, AppBar, Toolbar, Grid } from '@material-ui/core';
+import { Typography, AppBar, Toolbar, Grid, Tabs, Tab, Tooltip } from '@material-ui/core';
 import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
 
 // User
@@ -95,10 +95,14 @@ const useStyles = makeStyles( ( theme: Theme ) =>
             flexWrap: 'nowrap',
             alignItems: 'center'
         },
-        // Toolbar Title
+        // ToolBar Title
         toolBarTitle: {
             marginLeft: theme.spacing( 2 ),
             userSelect: 'none'
+        },
+        // ToolBar Tabs
+        toolBarTabs: {
+            flexGrow: 1       // 自分自身の幅も含めず（含めるときはflex），1の優先度で領域を確保する
         },
         // Grid Container
         gridContainer: {
@@ -118,10 +122,15 @@ const MainView = () => {
     const classes = useStyles();
 
     // States
+    const [toolBarTabValue, setToolBarTabValue] = React.useState( 0 );
 
     // Handlers
     const onClickItem = (id) => {
-        console.log(`Clicked item (id: ${id})`);
+        console.log(`Clicked an item (id: ${id})`);
+    };
+    const onClickToolBarTab = (e, newValue) => {
+        setToolBarTabValue( newValue );
+        console.log(`Clicked a tab (value: ${newValue})`);
     };
 
     // Variables
@@ -149,6 +158,20 @@ const MainView = () => {
                 <Typography className={ classes.toolBarTitle } variant="h6" color="inherit">
                   Menu
                 </Typography>
+                <Tabs className={ classes.toolBarTabs } value={ toolBarTabValue } onChange={ onClickToolBarTab } variant="standard" centered indicatorColor="secondary" aria-label="タブ">
+                  <Tooltip title="前菜">
+                    <Tab label="Antipasto" />
+                  </Tooltip>
+                  <Tooltip title="パスタ・リゾットなど">
+                    <Tab label="Primo Piatto" />
+                  </Tooltip>
+                  <Tooltip title="肉・魚料理など">
+                    <Tab label="Secondo Piatto" />
+                  </Tooltip>
+                  <Tooltip title="デザート">
+                    <Tab label="Dolce" />
+                  </Tooltip>
+                </Tabs>
               </Toolbar>
             </AppBar>
             { /* Content */ }
