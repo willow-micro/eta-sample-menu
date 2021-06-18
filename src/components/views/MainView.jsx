@@ -5,7 +5,7 @@ import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 //// App Bar
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Typography, AppBar, Toolbar, Grid } from '@material-ui/core';
+import { Typography, AppBar, Toolbar, Grid, Tab, Tabs, Tooltip } from '@material-ui/core';
 import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
 
 // User
@@ -95,10 +95,14 @@ const useStyles = makeStyles( ( theme: Theme ) =>
             flexWrap: 'nowrap',
             alignItems: 'center'
         },
-        // Toolbar Title
+        // ToolBar Title
         toolBarTitle: {
             marginLeft: theme.spacing( 2 ),
             userSelect: 'none'
+        },
+        // ToolBar Tabs
+        toolBarTabs: {
+            flexGrow: 1       // 自分自身の幅も含めず（含めるときはflex），1の優先度で領域を確保する
         },
         // Grid Container
         gridContainer: {
@@ -118,26 +122,47 @@ const MainView = () => {
     const classes = useStyles();
 
     // States
+    const [toolBarTabValue, setToolBarTabValue] = React.useState( 0 );
 
     // Handlers
     const onClickItem = (id) => {
-        console.log(`Clicked item (id: ${id})`);
+        console.log(`Clicked an item (id: ${id})`);
+    };
+    const onClickToolBarTabList = (e, newValue) => {
+        setToolBarTabValue( newValue );
+        console.log(typeof(newValue));
+        console.log(`Clicked a tab (value: ${newValue})`);
     };
 
     // Variables
 
     // JSX
-    //// Sub
-    const GridItems = MenuItemsInfo.map((info, index) => {
+    //// Sub Component
+    const MenuItemsGrid = (props) => {
+        // Variable
+        const selectedItemsInfo = props.itemsInfo.filter((info) => {
+            return ( info.hasOwnProperty("kindId") && info.kindId === props.kindId );
+        });
+        // Sub Component
+        const selectedGridItems = selectedItemsInfo.map((info, index) => {
+            return (
+                <Grid key={ info.id } item xs={ 3 }
+                      role="listitem">
+                  <ItemCard info={ info } onClick={ onClickItem }
+                            posinset={ index + 1 } setsize={ selectedItemsInfo.length } />
+                </Grid>
+            );
+        });
+        // Main Component
         return (
-            <Grid key={ info.id } item xs={ 3 }
-                  component="article" role="article" aria-posinset={ index + 1 } aria-setsize={ MenuItemsInfo.length }>
-              <ItemCard info={ info } onClick={ onClickItem } />
+            <Grid className={ props.classes.gridContainer } container spacing={ 2 }
+                  component="section" role="list">
+              { selectedGridItems }
             </Grid>
         );
-    });
+    };
 
-    //// Main
+    //// Main Component
     return (
         <ThemeProvider theme={ customTheme }>
           <div className={ classes.root }
@@ -149,13 +174,44 @@ const MainView = () => {
                 <Typography className={ classes.toolBarTitle } variant="h6" color="inherit">
                   Menu
                 </Typography>
+                <Tabs className={ classes.toolBarTabs } value={ toolBarTabValue } onChange={ onClickToolBarTabList } centered
+                      role="tablist" aria-label="タブ">
+                  <Tooltip title="前菜">
+                    <Tab value={ 0 } label="Antipasto" id="tab-0" tabIndex="0"
+                         role="tab" aria-controls="tabpanel-0" aria-selected={ (toolBarTabValue === 0 ) ? "true" : "false" } />
+                  </Tooltip>
+                  <Tooltip title="パスタ・リゾットなど">
+                    <Tab value={ 1 } label="Primo Piatto" id="tab-1" tabIndex="0"
+                         role="tab" aria-controls="tabpanel-1" aria-selected={ (toolBarTabValue === 1 ) ? "true" : "false" } />
+                  </Tooltip>
+                  <Tooltip title="肉・魚料理など">
+                    <Tab value={ 2 } label="Secondo Piatto" id="tab-2" tabIndex="0"
+                         role="tab" aria-controls="tabpanel-2" aria-selected={ (toolBarTabValue === 2 ) ? "true" : "false" } />
+                  </Tooltip>
+                  <Tooltip title="デザート">
+                    <Tab value={ 3 } label="Dolce" id="tab-3" tabIndex="0"
+                         role="tab" aria-controls="tabpanel-3" aria-selected={ (toolBarTabValue === 3 ) ? "true" : "false" } />
+                  </Tooltip>
+                </Tabs>
               </Toolbar>
             </AppBar>
             { /* Content */ }
-            <Grid className={ classes.gridContainer } container spacing={ 2 }
-                  component="main" role="main">
-              { GridItems }
-            </Grid>
+            <div id="tabpanel-0" hidden={ (toolBarTabValue !== 0 ) }
+                 role="tabpanel" aria-labelledby="tab-0">
+              <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 0 } />
+            </div>
+            <div id="tabpanel-1" hidden={ (toolBarTabValue !== 1 ) }
+                 role="tabpanel" aria-labelledby="tab-1">
+              <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 1 } />
+            </div>
+            <div id="tabpanel-2" hidden={ (toolBarTabValue !== 2 ) }
+                 role="tabpanel" aria-labelledby="tab-2">
+              <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 2 } />
+            </div>
+            <div id="tabpanel-3" hidden={ (toolBarTabValue !== 3 ) }
+                 role="tabpanel" aria-labelledby="tab-3">
+              <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
+            </div>
           </div>
         </ThemeProvider>
     );

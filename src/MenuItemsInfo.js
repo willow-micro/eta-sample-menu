@@ -4,11 +4,13 @@ import Crostini from './images/Crostini_by_Charles_Haynes-refined@800.png';
 import Arrabbiata from './images/Penne_all\'arrabbiata-refined@800.png';
 import AglioOlio from './images/aglio-olio-with-parsley-refined@800.png';
 
+// Values of "id" properties are should be unique
 const MenuItemsInfo = [
     {
         id: 0,
         image: Caprese,
         kind: "前菜 - Antipasto",
+        kindId: 0,
         title: "カプレーゼ",
         subtitle: "Insalata Caprese",
         pepperLevel: 0,
@@ -18,6 +20,7 @@ const MenuItemsInfo = [
         id: 1,
         image: Crostini,
         kind: "前菜 - Antipasto",
+        kindId: 0,
         title: "クロスティーニ",
         subtitle: "Crostini",
         pepperLevel: 0,
@@ -27,6 +30,7 @@ const MenuItemsInfo = [
         id: 10,
         image: Arrabbiata,
         kind: "プリモピアット - Primo Piatto",
+        kindId: 1,
         title: "ペンネアラビアータ",
         subtitle: "Penne all'Arrabbiata",
         pepperLevel: 3,
@@ -36,6 +40,7 @@ const MenuItemsInfo = [
         id: 11,
         image: AglioOlio,
         kind: "プリモピアット - Primo Piatto",
+        kindId: 1,
         title: "アーリオオーリオ",
         subtitle: "Spaghetti aglio e olio",
         pepperLevel: 2,
