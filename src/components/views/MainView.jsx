@@ -196,36 +196,23 @@ const MainView = () => {
               </Toolbar>
             </AppBar>
             { /* Content */ }
-            { (() => {
-                  switch ( toolBarTabValue ) {
-                      case 0: return(
-                          <div id="tabpanel-0"
-                               role="tabpanel" aria-labelledby="tab-0">
-                            <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 0 } />
-                          </div>
-                      );
-                      case 1: return(
-                          <div id="tabpanel-1"
-                               role="tabpanel" aria-labelledby="tab-1">
-                            <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 1 } />
-                          </div>
-                      );
-                      case 2: return(
-                          <div id="tabpanel-2"
-                               role="tabpanel" aria-labelledby="tab-2">
-                            <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 2 } />
-                          </div>
-                      );
-                      case 3: return(
-                          <div id="tabpanel-3"
-                               role="tabpanel" aria-labelledby="tab-3">
-                            <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
-                          </div>
-                      );
-                      default: return null;
-                  }
-            })() }
-                          </div>
+            <div id="tabpanel-0" hidden={ (toolBarTabValue !== 0 ) }
+                 role="tabpanel" aria-labelledby="tab-0">
+              <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 0 } />
+            </div>
+            <div id="tabpanel-1" hidden={ (toolBarTabValue !== 1 ) }
+                 role="tabpanel" aria-labelledby="tab-1">
+              <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 1 } />
+            </div>
+            <div id="tabpanel-2" hidden={ (toolBarTabValue !== 2 ) }
+                 role="tabpanel" aria-labelledby="tab-2">
+              <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 2 } />
+            </div>
+            <div id="tabpanel-3" hidden={ (toolBarTabValue !== 3 ) }
+                 role="tabpanel" aria-labelledby="tab-3">
+              <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
+            </div>
+          </div>
         </ThemeProvider>
     );
 };
