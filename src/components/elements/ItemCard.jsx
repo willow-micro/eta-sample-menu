@@ -80,12 +80,13 @@ const ItemCard = (props) => {
     //// Sub
     let pepperIcons = [];
     for ( let i = 0; i < props.info.pepperLevel; i++ ) {
-        pepperIcons.push(<FontAwesomeIcon icon={ faPepperHot } color={ SystemColor.Red } size="lg" />);
+        pepperIcons.push(<FontAwesomeIcon key={ i } icon={ faPepperHot } color={ SystemColor.Red } size="lg" />);
     }
 
     //// Main
     return (
-        <Card elevation={ 4 }>
+        <Card elevation={ 4 }
+              component="article" role="article" aria-posinset={ props.posinset } aria-setsize={ props.setsize }>
           <section role="banner">
             <CardMedia className={ classes.cardMedia } image={ props.info.image } title={ props.info.title }
                        role="img" aria-label={ props.info.title }/>

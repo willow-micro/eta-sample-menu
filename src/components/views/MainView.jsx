@@ -5,7 +5,8 @@ import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 //// App Bar
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Typography, AppBar, Toolbar, Grid, Tabs, Tab, Tooltip } from '@material-ui/core';
+import { Typography, AppBar, Toolbar, Grid, Tab, Tooltip } from '@material-ui/core';
+import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
 
 // User
@@ -122,63 +123,90 @@ const MainView = () => {
     const classes = useStyles();
 
     // States
-    const [toolBarTabValue, setToolBarTabValue] = React.useState( 0 );
+    const [toolBarTabValue, setToolBarTabValue] = React.useState( "antipasto" );
 
     // Handlers
     const onClickItem = (id) => {
         console.log(`Clicked an item (id: ${id})`);
     };
-    const onClickToolBarTab = (e, newValue) => {
+    const onClickToolBarTabList = (e, newValue) => {
         setToolBarTabValue( newValue );
+        console.log(typeof(newValue));
         console.log(`Clicked a tab (value: ${newValue})`);
     };
 
     // Variables
 
     // JSX
-    //// Sub
-    const GridItems = MenuItemsInfo.map((info, index) => {
+    //// Sub Component
+    const MenuItemsGrid = (props) => {
+        // Variable
+        const selectedItemsInfo = props.itemsInfo.filter((info) => {
+            return ( info.hasOwnProperty("kindId") && info.kindId === props.kindId );
+        });
+        // Sub Component
+        const selectedGridItems = selectedItemsInfo.map((info, index) => {
+            return (
+                <Grid key={ info.id } item xs={ 3 }
+                      role="listitem">
+                  <ItemCard info={ info } onClick={ onClickItem }
+                            posinset={ index + 1 } setsize={ selectedItemsInfo.length } />
+                </Grid>
+            );
+        });
+        // Main Component
         return (
-            <Grid key={ info.id } item xs={ 3 }
-                  component="article" role="article" aria-posinset={ index + 1 } aria-setsize={ MenuItemsInfo.length }>
-              <ItemCard info={ info } onClick={ onClickItem } />
+            <Grid className={ props.classes.gridContainer } container spacing={ 2 }
+                  component="section" role="list">
+              { selectedGridItems }
             </Grid>
         );
-    });
+    };
 
-    //// Main
+    //// Main Component
     return (
         <ThemeProvider theme={ customTheme }>
           <div className={ classes.root }
                role="application">
-            { /* Header */ }
-            <AppBar className={ classes.appBar } position="fixed" elevation={ 2 }>
-              <Toolbar className={ classes.toolBar } variant="dense"
-                       component="nav" role="navigation" aria-label="メニューバー">
-                <Typography className={ classes.toolBarTitle } variant="h6" color="inherit">
-                  Menu
-                </Typography>
-                <Tabs className={ classes.toolBarTabs } value={ toolBarTabValue } onChange={ onClickToolBarTab } variant="standard" centered indicatorColor="secondary" aria-label="タブ">
-                  <Tooltip title="前菜">
-                    <Tab label="Antipasto" />
-                  </Tooltip>
-                  <Tooltip title="パスタ・リゾットなど">
-                    <Tab label="Primo Piatto" />
-                  </Tooltip>
-                  <Tooltip title="肉・魚料理など">
-                    <Tab label="Secondo Piatto" />
-                  </Tooltip>
-                  <Tooltip title="デザート">
-                    <Tab label="Dolce" />
-                  </Tooltip>
-                </Tabs>
-              </Toolbar>
-            </AppBar>
-            { /* Content */ }
-            <Grid className={ classes.gridContainer } container spacing={ 2 }
-                  component="main" role="main">
-              { GridItems }
-            </Grid>
+            <TabContext value={ toolBarTabValue }>
+              { /* Header */ }
+              <AppBar className={ classes.appBar } position="fixed" elevation={ 2 }>
+                <Toolbar className={ classes.toolBar } variant="dense"
+                         component="nav" role="navigation" aria-label="メニューバー">
+                  <Typography className={ classes.toolBarTitle } variant="h6" color="inherit">
+                    Menu
+                  </Typography>
+                  <TabList className={ classes.toolBarTabs } value={ toolBarTabValue } onChange={ onClickToolBarTabList }
+                           centered aria-label="タブ">
+                    <Tooltip title="前菜">
+                      <Tab value="antipasto" label="Antipasto" />
+                    </Tooltip>
+                    <Tooltip title="パスタ・リゾットなど">
+                      <Tab value="primo" label="Primo Piatto" />
+                    </Tooltip>
+                    <Tooltip title="肉・魚料理など">
+                      <Tab value="secondo" label="Secondo Piatto" />
+                    </Tooltip>
+                    <Tooltip title="デザート">
+                      <Tab value="dolce" label="Dolce" />
+                    </Tooltip>
+                  </TabList>
+                </Toolbar>
+              </AppBar>
+              { /* Content */ }
+              <TabPanel value="antipasto">
+                <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 1 } />
+              </TabPanel>
+              <TabPanel value="primo">
+                <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 2 } />
+              </TabPanel>
+              <TabPanel value="secondo">
+                <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
+              </TabPanel>
+              <TabPanel value="dolce">
+                <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 4 } />
+              </TabPanel>
+            </TabContext>
           </div>
         </ThemeProvider>
     );
