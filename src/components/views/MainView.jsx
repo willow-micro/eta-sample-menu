@@ -174,42 +174,58 @@ const MainView = () => {
                 <Typography className={ classes.toolBarTitle } variant="h6" color="inherit">
                   Menu
                 </Typography>
-                <Tabs className={ classes.toolBarTabs } value={ toolBarTabValue } onChange={ onClickToolBarTabList }
-                      centered aria-label="タブ">
+                <Tabs className={ classes.toolBarTabs } value={ toolBarTabValue } onChange={ onClickToolBarTabList } centered
+                      role="tablist" aria-label="タブ">
                   <Tooltip title="前菜">
-                    <Tab value={ 0 } label="Antipasto" />
+                    <Tab value={ 0 } label="Antipasto" id="tab-0" tabIndex="0"
+                         role="tab" aria-controls="tabpanel-0" aria-selected={ (toolBarTabValue === 0 ) ? "true" : "false" } />
                   </Tooltip>
                   <Tooltip title="パスタ・リゾットなど">
-                    <Tab value={ 1 } label="Primo Piatto" />
+                    <Tab value={ 1 } label="Primo Piatto" id="tab-1" tabIndex="0"
+                         role="tab" aria-controls="tabpanel-1" aria-selected={ (toolBarTabValue === 1 ) ? "true" : "false" } />
                   </Tooltip>
                   <Tooltip title="肉・魚料理など">
-                    <Tab value={ 2 } label="Secondo Piatto" />
+                    <Tab value={ 2 } label="Secondo Piatto" id="tab-2" tabIndex="0"
+                         role="tab" aria-controls="tabpanel-2" aria-selected={ (toolBarTabValue === 2 ) ? "true" : "false" } />
                   </Tooltip>
                   <Tooltip title="デザート">
-                    <Tab value={ 3 } label="Dolce" />
+                    <Tab value={ 3 } label="Dolce" id="tab-3" tabIndex="0"
+                         role="tab" aria-controls="tabpanel-3" aria-selected={ (toolBarTabValue === 3 ) ? "true" : "false" } />
                   </Tooltip>
-                  </Tabs>
+                </Tabs>
               </Toolbar>
             </AppBar>
             { /* Content */ }
             { (() => {
                   switch ( toolBarTabValue ) {
                       case 0: return(
-                          <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 0 } />
+                          <div id="tabpanel-0"
+                               role="tabpanel" aria-labelledby="tab-0">
+                            <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 0 } />
+                          </div>
                       );
                       case 1: return(
-                          <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 1 } />
+                          <div id="tabpanel-1"
+                               role="tabpanel" aria-labelledby="tab-1">
+                            <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 1 } />
+                          </div>
                       );
                       case 2: return(
-                          <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 2 } />
+                          <div id="tabpanel-2"
+                               role="tabpanel" aria-labelledby="tab-2">
+                            <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 2 } />
+                          </div>
                       );
                       case 3: return(
-                          <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
+                          <div id="tabpanel-3"
+                               role="tabpanel" aria-labelledby="tab-3">
+                            <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
+                          </div>
                       );
                       default: return null;
                   }
             })() }
-          </div>
+                          </div>
         </ThemeProvider>
     );
 };
