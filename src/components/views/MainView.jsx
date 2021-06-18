@@ -5,8 +5,7 @@ import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 //// App Bar
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Typography, AppBar, Toolbar, Grid, Tab, Tooltip } from '@material-ui/core';
-import { TabContext, TabList, TabPanel } from '@material-ui/lab';
+import { Typography, AppBar, Toolbar, Grid, Tab, Tabs, Tooltip } from '@material-ui/core';
 import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
 
 // User
@@ -123,7 +122,7 @@ const MainView = () => {
     const classes = useStyles();
 
     // States
-    const [toolBarTabValue, setToolBarTabValue] = React.useState( "antipasto" );
+    const [toolBarTabValue, setToolBarTabValue] = React.useState( 0 );
 
     // Handlers
     const onClickItem = (id) => {
@@ -168,45 +167,48 @@ const MainView = () => {
         <ThemeProvider theme={ customTheme }>
           <div className={ classes.root }
                role="application">
-            <TabContext value={ toolBarTabValue }>
-              { /* Header */ }
-              <AppBar className={ classes.appBar } position="fixed" elevation={ 2 }>
-                <Toolbar className={ classes.toolBar } variant="dense"
-                         component="nav" role="navigation" aria-label="メニューバー">
-                  <Typography className={ classes.toolBarTitle } variant="h6" color="inherit">
-                    Menu
-                  </Typography>
-                  <TabList className={ classes.toolBarTabs } value={ toolBarTabValue } onChange={ onClickToolBarTabList }
-                           centered aria-label="タブ">
-                    <Tooltip title="前菜">
-                      <Tab value="antipasto" label="Antipasto" />
-                    </Tooltip>
-                    <Tooltip title="パスタ・リゾットなど">
-                      <Tab value="primo" label="Primo Piatto" />
-                    </Tooltip>
-                    <Tooltip title="肉・魚料理など">
-                      <Tab value="secondo" label="Secondo Piatto" />
-                    </Tooltip>
-                    <Tooltip title="デザート">
-                      <Tab value="dolce" label="Dolce" />
-                    </Tooltip>
-                  </TabList>
-                </Toolbar>
-              </AppBar>
-              { /* Content */ }
-              <TabPanel value="antipasto">
-                <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 1 } />
-              </TabPanel>
-              <TabPanel value="primo">
-                <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 2 } />
-              </TabPanel>
-              <TabPanel value="secondo">
-                <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
-              </TabPanel>
-              <TabPanel value="dolce">
-                <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 4 } />
-              </TabPanel>
-            </TabContext>
+            { /* Header */ }
+            <AppBar className={ classes.appBar } position="fixed" elevation={ 2 }>
+              <Toolbar className={ classes.toolBar } variant="dense"
+                       component="nav" role="navigation" aria-label="メニューバー">
+                <Typography className={ classes.toolBarTitle } variant="h6" color="inherit">
+                  Menu
+                </Typography>
+                <Tabs className={ classes.toolBarTabs } value={ toolBarTabValue } onChange={ onClickToolBarTabList }
+                      centered aria-label="タブ">
+                  <Tooltip title="前菜">
+                    <Tab value={ 0 } label="Antipasto" />
+                  </Tooltip>
+                  <Tooltip title="パスタ・リゾットなど">
+                    <Tab value={ 1 } label="Primo Piatto" />
+                  </Tooltip>
+                  <Tooltip title="肉・魚料理など">
+                    <Tab value={ 2 } label="Secondo Piatto" />
+                  </Tooltip>
+                  <Tooltip title="デザート">
+                    <Tab value={ 3 } label="Dolce" />
+                  </Tooltip>
+                  </Tabs>
+              </Toolbar>
+            </AppBar>
+            { /* Content */ }
+            { (() => {
+                  switch ( toolBarTabValue ) {
+                      case 0: return(
+                          <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 0 } />
+                      );
+                      case 1: return(
+                          <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 1 } />
+                      );
+                      case 2: return(
+                          <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 2 } />
+                      );
+                      case 3: return(
+                          <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
+                      );
+                      default: return null;
+                  }
+            })() }
           </div>
         </ThemeProvider>
     );

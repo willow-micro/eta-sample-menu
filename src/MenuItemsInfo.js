@@ -7,40 +7,40 @@ import AglioOlio from './images/aglio-olio-with-parsley-refined@800.png';
 // Values of "id" properties are should be unique
 const MenuItemsInfo = [
     {
-        id: 11,
+        id: 0,
         image: Caprese,
         kind: "前菜 - Antipasto",
-        kindId: 1,
+        kindId: 0,
         title: "カプレーゼ",
         subtitle: "Insalata Caprese",
         pepperLevel: 0,
         description: "新鮮なトマトとモッツァレラを使用したシンプルな一品"
     },
     {
-        id: 12,
+        id: 1,
         image: Crostini,
         kind: "前菜 - Antipasto",
-        kindId: 1,
+        kindId: 0,
         title: "クロスティーニ",
         subtitle: "Crostini",
         pepperLevel: 0,
         description: "バゲットを焼き上げ、チーズとほうれん草を添えた一品"
     },
     {
-        id: 21,
+        id: 10,
         image: Arrabbiata,
         kind: "プリモピアット - Primo Piatto",
-        kindId: 2,
+        kindId: 1,
         title: "ペンネアラビアータ",
         subtitle: "Penne all'Arrabbiata",
         pepperLevel: 3,
         description: "ピリ辛のトマトソースにペンネを加えたシンプルな一品"
     },
     {
-        id: 22,
+        id: 11,
         image: AglioOlio,
         kind: "プリモピアット - Primo Piatto",
-        kindId: 2,
+        kindId: 1,
         title: "アーリオオーリオ",
         subtitle: "Spaghetti aglio e olio",
         pepperLevel: 2,
