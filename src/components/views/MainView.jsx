@@ -180,17 +180,21 @@ const MainView = () => {
                     <Tab value={ 0 } label="Antipasto" id="tab-0" tabIndex="0"
                          role="tab" aria-controls="tabpanel-0" aria-selected={ (toolBarTabValue === 0 ) ? "true" : "false" } />
                   </Tooltip>
-                  <Tooltip title="パスタ・リゾットなど">
+                  <Tooltip title="主菜（スープ・パスタ・リゾット）">
                     <Tab value={ 1 } label="Primo Piatto" id="tab-1" tabIndex="0"
                          role="tab" aria-controls="tabpanel-1" aria-selected={ (toolBarTabValue === 1 ) ? "true" : "false" } />
                   </Tooltip>
-                  <Tooltip title="肉・魚料理など">
+                  <Tooltip title="主菜（肉・魚料理）">
                     <Tab value={ 2 } label="Secondo Piatto" id="tab-2" tabIndex="0"
                          role="tab" aria-controls="tabpanel-2" aria-selected={ (toolBarTabValue === 2 ) ? "true" : "false" } />
                   </Tooltip>
-                  <Tooltip title="デザート">
-                    <Tab value={ 3 } label="Dolce" id="tab-3" tabIndex="0"
+                  <Tooltip title="副菜">
+                    <Tab value={ 3 } label="Contorno" id="tab-3" tabIndex="0"
                          role="tab" aria-controls="tabpanel-3" aria-selected={ (toolBarTabValue === 3 ) ? "true" : "false" } />
+                  </Tooltip>
+                  <Tooltip title="デザート">
+                    <Tab value={ 4 } label="Dolce" id="tab-4" tabIndex="0"
+                         role="tab" aria-controls="tabpanel-4" aria-selected={ (toolBarTabValue === 4 ) ? "true" : "false" } />
                   </Tooltip>
                 </Tabs>
               </Toolbar>
@@ -211,6 +215,10 @@ const MainView = () => {
             <div id="tabpanel-3" hidden={ (toolBarTabValue !== 3 ) }
                  role="tabpanel" aria-labelledby="tab-3">
               <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
+            </div>
+            <div id="tabpanel-4" hidden={ (toolBarTabValue !== 4 ) }
+                 role="tabpanel" aria-labelledby="tab-4">
+              <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 4 } />
             </div>
           </div>
         </ThemeProvider>
