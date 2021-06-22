@@ -172,7 +172,7 @@ const MainView = () => {
               <Toolbar className={ classes.toolBar } variant="dense"
                        component="nav" role="navigation" aria-label="メニューバー">
                 <Typography className={ classes.toolBarTitle } variant="h6" color="inherit">
-                  Menu
+                  Menù
                 </Typography>
                 <Tabs className={ classes.toolBarTabs } value={ toolBarTabValue } onChange={ onClickToolBarTabList } centered
                       role="tablist" aria-label="タブ">
