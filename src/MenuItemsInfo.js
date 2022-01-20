@@ -21,6 +21,7 @@ const MenuItemsInfo = [
         title: "カプレーゼ",
         subtitle: "Insalata caprese",
         pepperLevel: 0,
+        kcal: 124,
         description: "新鮮なトマトとモッツァレラを使ったシンプルなサラダ"
     },
     {
@@ -31,6 +32,7 @@ const MenuItemsInfo = [
         title: "クロスティーニ",
         subtitle: "Crostini",
         pepperLevel: 0,
+        kcal: 140,
         description: "バゲットを焼き上げ、チーズとほうれん草を添えた一品"
     },
     {
@@ -41,6 +43,7 @@ const MenuItemsInfo = [
         title: "ミネストローネ",
         subtitle: "Minestrone",
         pepperLevel: 1,
+        kcal: 102,
         description: "じっくり野菜を炒めてから煮込んだ香り高いスープ"
     },
     {
@@ -48,10 +51,11 @@ const MenuItemsInfo = [
         image: Arrabbiata,
         kind: "プリモピアット - Primo Piatto",
         kindId: 1,
-        title: "ペンネアラビアータ",
+        title: "アラビアータ",
         subtitle: "Penne all'Arrabbiata",
         pepperLevel: 3,
-        description: "ピリ辛のトマトソースにペンネを加えた一品"
+        kcal: 590,
+        description: "ピリ辛のトマトソースにペンネリガーテを加えた一品"
     },
     {
         id: 12,
@@ -59,8 +63,9 @@ const MenuItemsInfo = [
         kind: "プリモピアット - Primo Piatto",
         kindId: 1,
         title: "ジェノベーゼ",
-        subtitle: "Cavatappi con pesto alla genovese",
+        subtitle: "Pesto alla genovese",
         pepperLevel: 0,
+        kcal: 720,
         description: "らせん状のパスタ・カヴァタッピを使ったジェノベーゼ"
     },
     {
@@ -71,6 +76,7 @@ const MenuItemsInfo = [
         title: "リゾット",
         subtitle: "Risotto ai funghi",
         pepperLevel: 0,
+        kcal: 512,
         description: "香ばしく炒めたマッシュルームをクリーミーに仕上げた一品"
     },
     {
@@ -81,6 +87,7 @@ const MenuItemsInfo = [
         title: "ピカタ",
         subtitle: "Piccata di vitello al limone",
         pepperLevel: 0,
+        kcal: 348,
         description: "薄切りの仔牛肉を炒め、レモンで味付けした一品"
     },
     {
@@ -91,6 +98,7 @@ const MenuItemsInfo = [
         title: "アクアパッツァ",
         subtitle: "Pesce all'acqua pazza",
         pepperLevel: 1,
+        kcal: 299,
         description: "ネギとオリーブ、マッシュルームを使った白身魚の煮込み"
     },
     {
@@ -101,6 +109,7 @@ const MenuItemsInfo = [
         title: "ティラミス",
         subtitle: "Tiramisù",
         pepperLevel: 0,
+        kcal: 379,
         description: "カスタードとマスカルポーネを使ったシンプルな一品"
     },
     {
@@ -109,8 +118,9 @@ const MenuItemsInfo = [
         kind: "デザート - Dolce",
         kindId: 3,
         title: "パンナコッタ",
-        subtitle: "Panna cotta di parmigiano reggiano",
+        subtitle: "Panna cotta",
         pepperLevel: 0,
+        kcal: 211,
         description: "パルミジャーノ・レッジャーノを使ったパンナコッタ"
     }
 ];
