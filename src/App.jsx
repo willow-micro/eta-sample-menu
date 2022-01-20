@@ -2,10 +2,13 @@
 // User
 import './App.css';
 import MainView from './components/views/MainView';
+import { CheckedProvider } from './CheckedContext';
 
 function App() {
-  return (
-      <MainView/>
+    return (
+        <CheckedProvider>
+          <MainView/>
+        </CheckedProvider>
   );
 }
 

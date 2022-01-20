@@ -1,5 +1,5 @@
 // System
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // Material-UI
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography, Button, Checkbox, Grid } from '@material-ui/core';
@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPepperHot } from '@fortawesome/free-solid-svg-icons'
 
 // User
-
+import { useCheckedContext } from '../../CheckedContext';
 
 // Colors
 const SystemColor = {
@@ -70,8 +70,33 @@ const ItemCard = (props) => {
     const classes = useStyles();
 
     // States
+    const [isCheckBoxChecked, setIsCheckBoxChecked] = useState( false );
+
+    // Contexts
+    const { checked, setChecked } = useCheckedContext();
+
+    // Effects
+    useEffect(() => {
+        if (checked[props.info.kindId] !== props.posinset ) {
+            setIsCheckBoxChecked(false);
+        } else {
+            setIsCheckBoxChecked(true);
+        }
+    }, [checked, props.info.kindId, props.posinset]);
 
     // Handlers
+    const onCheckBoxChanged = (event) => {
+        let result = event.target.checked;
+        let checkState = [...checked];
+        if (result === true) {
+            checkState[props.info.kindId] = props.posinset;
+            setIsCheckBoxChecked(true);
+        } else {
+            checkState[props.info.kindId] = 0;
+            setIsCheckBoxChecked(false);
+        }
+        setChecked(checkState);
+    };
 
     // Variables
 
@@ -118,7 +143,8 @@ const ItemCard = (props) => {
           <CardActions role="form" aria-label={ props.info.title + "カードの操作セクション" }>
             <Grid container spacing={ 2 } justify="space-between" alignItems="center">
               <Grid item>
-                <Checkbox color="primary" inputProps={{ 'aria-label': props.info.title + 'の選択チェックボックス' }}/>
+                <Checkbox color="primary" inputProps={{ 'aria-label': props.info.title + 'の選択チェックボックス' }}
+                          checked={ isCheckBoxChecked } onChange={ onCheckBoxChanged } />
               </Grid>
               <Grid item>
                 <Button variant="contained" size="small" onClick={ () => { props.onClick(props.info.id) } }
