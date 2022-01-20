@@ -135,6 +135,7 @@ const MainView = () => {
     // States
     const [toolBarTabValue, setToolBarTabValue] = React.useState( 0 );
     const [isWelcomeDialogOpen, setIsWelcomeDialogOpen] = React.useState( true );
+    const [isOrderConfirmDialogOpen, setIsOrderConfirmDialogOpen] = React.useState( false );
 
     // Handlers
     const onClickItem = (id) => {
@@ -150,6 +151,15 @@ const MainView = () => {
     };
     const handleWelcomeDialogClose = () => {
         setIsWelcomeDialogOpen(false);
+    };
+    const handleOrderConfirmDialogOpen = () => {
+        setIsOrderConfirmDialogOpen(true);
+    };
+    const handleOrderConfirmDialogClose = () => {
+        setIsOrderConfirmDialogOpen(false);
+    };
+    const onClickOrderFab = () => {
+        handleOrderConfirmDialogOpen();
     };
     const onClickOrderButton = () => {
         window.close();
@@ -186,13 +196,14 @@ const MainView = () => {
     //// Main Component
     return (
         <ThemeProvider theme={ customTheme }>
+          { /* Welcome Dialog */ }
           <Dialog BackdropProps={ { style: { backgroundColor: SystemColor.DarkGrey } } }
                   fullWidth={ true }
                   maxWidth="md"
                   open={ isWelcomeDialogOpen }
                   onClose={ handleWelcomeDialogClose }
                   aria-labelledby="welcome-dialog-title" aria-label="ウェルカムダイアログ">
-            <DialogTitle id="max-width-dialog-title"
+            <DialogTitle id="welcome-dialog-title"
                          aria-label="ウェルカムダイアログのタイトル">
               <Typography align="center" color="primary" variant="h3">
                 ようこそ
@@ -203,8 +214,9 @@ const MainView = () => {
                                  aria-label="ウェルカムダイアログのテキスト">
                 当店のイタリアンコースは、4種の区分から1品ずつ、<br />
                 合わせて4品お選びいただく方式となっております。<br /> <br />
-                どうぞごゆっくりとお選びください。<br /> <br />
-                お望みの品が決まりましたら、それぞれの品のチェックボックスに印をつけてくださいませ。
+                お望みの品を1品ずつ選び、チェックボックスに印をつけてくださいませ。 <br />
+                最後に右下のボタンを押すことで、注文を確定することができます。<br /> <br />
+                どうぞごゆっくりとお選びください。
               </DialogContentText>
             </DialogContent>
             <DialogActions style={ { justifyContent: 'center' } }
@@ -212,6 +224,36 @@ const MainView = () => {
               <Button onClick={ handleWelcomeDialogClose } color="primary" variant="contained"
                       role="button" aria-label="ウェルカムダイアログの注文開始ボタン">
                 注文を開始する
+              </Button>
+            </DialogActions>
+          </Dialog>
+          { /* Order Confirm Dialog */ }
+          <Dialog fullWidth={ true }
+                  maxWidth="md"
+                  open={ isOrderConfirmDialogOpen }
+                  onClose={ handleOrderConfirmDialogClose }
+                  aria-labelledby="order-confirm-dialog-title" aria-label="注文確認ダイアログ">
+            <DialogTitle id="order-confirm-dialog-title"
+                         aria-label="注文確認ダイアログのタイトル">
+              <Typography align="center" color="textPrimary" variant="h4">
+                注文する
+              </Typography>
+            </DialogTitle>
+            <DialogContent aria-label="注文確認ダイアログの情報セクション">
+              <DialogContentText align="center" color="textPrimary" variant="body1"
+                                 aria-label="注文確認ダイアログのテキスト">
+                注文を確定して終了しますか？
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions style={ { justifyContent: 'center' } }
+                           aria-label="注文確認ダイアログの操作セクション">
+              <Button onClick={ onClickOrderButton } color="primary" variant="contained"
+                      role="button" aria-label="注文確認ダイアログの注文ボタン">
+                注文を確定する
+              </Button>
+              <Button onClick={ handleOrderConfirmDialogClose } color="primary" variant="outlined"
+                      role="button" aria-label="注文確認ダイアログのキャンセルボタン">
+                キャンセル
               </Button>
             </DialogActions>
           </Dialog>
@@ -253,12 +295,12 @@ const MainView = () => {
             { /* Content */ }
             <Fab className={ classes.fab }
                  color="primary" variant="circular"
-                 onClick={ onClickOrderButton }
-                 aria-label="注文確定ボタン">
+                 onClick={ onClickOrderFab }
+                 aria-label="注文フロートボタン">
               <ExitToAppIcon style={ { paddingLeft: '4px' } } />
               <Typography align="center" color="white" variant="button"
                           style={ { paddingLeft: '8px', paddingRight: '4px' } }>
-                注文を確定する
+                注文する
               </Typography>
             </Fab>
             <div id="tabpanel-0" hidden={ (toolBarTabValue !== 0 ) }
