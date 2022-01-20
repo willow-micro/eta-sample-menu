@@ -3,11 +3,14 @@ import React from 'react';
 // Material-UI
 //// Theme
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-//// App Bar
+//// Material-UI v4
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography, AppBar, Toolbar, Grid, Tab, Tabs, Tooltip } from '@material-ui/core';
 import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button } from '@material-ui/core';
+import { Fab } from '@material-ui/core';
 import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
+
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // User
 import MenuItemsInfo from '../../MenuItemsInfo';
@@ -112,6 +115,13 @@ const useStyles = makeStyles( ( theme: Theme ) =>
             marginRight: theme.spacing( 0 ),
             marginBottom: theme.spacing( 2 ),
             marginLeft: theme.spacing( 0 )
+        },
+        // Floating action button
+        fab: {
+            position: 'absolute',
+            bottom: theme.spacing( 6 ),
+            right: theme.spacing( 6 ),
+            width: 'auto'
         }
     })
 );
@@ -141,6 +151,10 @@ const MainView = () => {
     const handleWelcomeDialogClose = () => {
         setIsWelcomeDialogOpen(false);
     };
+    const onClickOrderButton = () => {
+        window.close();
+    };
+
     // Variables
 
     // JSX
@@ -237,6 +251,16 @@ const MainView = () => {
               </Toolbar>
             </AppBar>
             { /* Content */ }
+            <Fab className={ classes.fab }
+                 color="primary" variant="circular"
+                 onClick={ onClickOrderButton }
+                 aria-label="注文確定ボタン">
+              <ExitToAppIcon style={ { paddingLeft: '4px' } } />
+              <Typography align="center" color="white" variant="button"
+                          style={ { paddingLeft: '8px', paddingRight: '4px' } }>
+                注文を確定する
+              </Typography>
+            </Fab>
             <div id="tabpanel-0" hidden={ (toolBarTabValue !== 0 ) }
                  role="tabpanel" aria-labelledby="tab-0" aria-label="前菜パネル">
               <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 0 } />
