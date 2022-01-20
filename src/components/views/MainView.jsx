@@ -6,6 +6,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 //// App Bar
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography, AppBar, Toolbar, Grid, Tab, Tabs, Tooltip } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button } from '@material-ui/core';
 import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
 
 // User
@@ -123,6 +124,7 @@ const MainView = () => {
 
     // States
     const [toolBarTabValue, setToolBarTabValue] = React.useState( 0 );
+    const [isWelcomeDialogOpen, setIsWelcomeDialogOpen] = React.useState( true );
 
     // Handlers
     const onClickItem = (id) => {
@@ -133,7 +135,12 @@ const MainView = () => {
         console.log(typeof(newValue));
         console.log(`Clicked a tab (value: ${newValue})`);
     };
-
+    const handleWelcomeDialogOpen = () => {
+        setIsWelcomeDialogOpen(true);
+    };
+    const handleWelcomeDialogClose = () => {
+        setIsWelcomeDialogOpen(false);
+    };
     // Variables
 
     // JSX
@@ -165,6 +172,35 @@ const MainView = () => {
     //// Main Component
     return (
         <ThemeProvider theme={ customTheme }>
+          <Dialog BackdropProps={ { style: { backgroundColor: SystemColor.DarkGrey } } }
+                  fullWidth={ true }
+                  maxWidth="md"
+                  open={ isWelcomeDialogOpen }
+                  onClose={ handleWelcomeDialogClose }
+                  aria-labelledby="welcome-dialog-title" aria-label="ウェルカムダイアログ">
+            <DialogTitle id="max-width-dialog-title"
+                         aria-label="ウェルカムダイアログのタイトル">
+              <Typography align="center" color="primary" variant="h3">
+                ようこそ
+              </Typography>
+            </DialogTitle>
+            <DialogContent aria-label="ウェルカムダイアログの情報セクション">
+              <DialogContentText align="center" color="textPrimary" variant="body1"
+                                 aria-label="ウェルカムダイアログのテキスト">
+                当店のイタリアンコースは、4種の区分から1品ずつ、<br />
+                合わせて4品お選びいただく方式となっております。<br /> <br />
+                どうぞごゆっくりとお選びください。<br /> <br />
+                お望みの品が決まりましたら、それぞれの品のチェックボックスに印をつけてくださいませ。
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions style={ { justifyContent: 'center' } }
+                           aria-label="ウェルカムダイアログの操作セクション">
+              <Button onClick={ handleWelcomeDialogClose } color="primary" variant="contained"
+                      role="button" aria-label="ウェルカムダイアログの注文開始ボタン">
+                注文を開始する
+              </Button>
+            </DialogActions>
+          </Dialog>
           <div className={ classes.root }
                role="application" aria-label="アプリのルート要素">
             { /* Header */ }
