@@ -86,37 +86,45 @@ const ItemCard = (props) => {
     //// Main
     return (
         <Card elevation={ 4 }
-              component="article" role="article" aria-posinset={ props.posinset } aria-setsize={ props.setsize }>
-          <section role="banner">
+              component="article" role="article" aria-posinset={ props.posinset } aria-setsize={ props.setsize }
+              aria-label={ props.info.title + "のカード本体" }>
+          <section role="banner" aria-label={ props.info.title + "カードの情報セクション" }>
             <CardMedia className={ classes.cardMedia } image={ props.info.image } title={ props.info.title }
-                       role="img" aria-label={ props.info.title }/>
+                       role="img" aria-label={ props.info.title + "のサムネイル画像" }/>
             <CardContent className={ classes.cardContent }
-                         role="document">
-              <Typography className={ classes.cardKind } color="textSecondary" gutterBottom>
+                         role="document" aria-label={ props.info.title + "の概要文章" }>
+              <Typography className={ classes.cardKind } color="textSecondary" gutterBottom
+                          aria-label={ props.info.title + "の種別テキスト" }>
                 { props.info.kind }
               </Typography>
-              <Typography className={ classes.cardTitle } variant="h5" component="h2">
+              <Typography className={ classes.cardTitle } variant="h5" component="h2"
+                          aria-label={ props.info.title + "のタイトルテキスト" }>
                 { props.info.title }
               </Typography>
-              <Typography className={ classes.cardSubtitle } color="textSecondary">
+              <Typography className={ classes.cardSubtitle } color="textSecondary"
+                          aria-label={ props.info.title + "のサブタイトルテキスト" }>
                 { props.info.subtitle }
               </Typography>
-              <Typography variant="body2" component="p">
+              <Typography variant="body2" component="p"
+                          aria-label={ props.info.title + "の概要説明テキスト" }>
                 { props.info.description }
               </Typography>
-              <Typography className={ classes.cardIconText } align="right" variant="subtitle2" component="p">
+              <Typography className={ classes.cardIconText } align="right" variant="subtitle2" component="p"
+                          aria-label={ props.info.title + "の辛さレベルテキスト" }>
                 { pepperIcons }
               </Typography>
             </CardContent>
           </section>
-          <CardActions role="form">
+          <CardActions role="form" aria-label={ props.info.title + "カードの操作セクション" }>
             <Grid container spacing={ 2 } justify="space-between" alignItems="center">
               <Grid item>
-                <Checkbox color="primary" inputProps={{ 'aria-label': 'select item' }}/>
+                <Checkbox color="primary" inputProps={{ 'aria-label': props.info.title + 'の選択チェックボックス' }}/>
               </Grid>
               <Grid item>
                 <Button variant="contained" size="small" onClick={ () => { props.onClick(props.info.id) } }
-                        role="button">詳しく</Button>
+                        role="button" aria-label={ props.info.title + "の詳細表示ボタン" }>
+                  詳しく
+                </Button>
               </Grid>
             </Grid>
           </CardActions>

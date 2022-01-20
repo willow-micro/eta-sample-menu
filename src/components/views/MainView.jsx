@@ -147,7 +147,7 @@ const MainView = () => {
         const selectedGridItems = selectedItemsInfo.map((info, index) => {
             return (
                 <Grid key={ info.id } item xs={ 3 }
-                      role="listitem">
+                      role="listitem" aria-label="カードアイテム">
                   <ItemCard info={ info } onClick={ onClickItem }
                             posinset={ index + 1 } setsize={ selectedItemsInfo.length } />
                 </Grid>
@@ -156,7 +156,7 @@ const MainView = () => {
         // Main Component
         return (
             <Grid className={ props.classes.gridContainer } container spacing={ 2 }
-                  component="section" role="list">
+                  component="section" role="list" aria-label="カードアイテムのリスト">
               { selectedGridItems }
             </Grid>
         );
@@ -166,50 +166,55 @@ const MainView = () => {
     return (
         <ThemeProvider theme={ customTheme }>
           <div className={ classes.root }
-               role="application">
+               role="application" aria-label="アプリのルート要素">
             { /* Header */ }
             <AppBar className={ classes.appBar } position="fixed" elevation={ 2 }>
               <Toolbar className={ classes.toolBar } variant="dense"
                        component="nav" role="navigation" aria-label="メニューバー">
-                <Typography className={ classes.toolBarTitle } variant="h6" color="inherit">
+                <Typography className={ classes.toolBarTitle } variant="h6" color="inherit"
+                            aria-label="アプリのタイトル">
                   Menù
                 </Typography>
                 <Tabs className={ classes.toolBarTabs } value={ toolBarTabValue } onChange={ onClickToolBarTabList } centered
-                      role="tablist" aria-label="タブ">
+                      role="tablist" aria-label="コース選択タブのリスト">
                   <Tooltip title="前菜">
                     <Tab value={ 0 } label="Antipasto" id="tab-0" tabIndex="0"
-                         role="tab" aria-controls="tabpanel-0" aria-selected={ (toolBarTabValue === 0 ) ? "true" : "false" } />
+                         role="tab" aria-controls="tabpanel-0" aria-selected={ (toolBarTabValue === 0 ) ? "true" : "false" }
+                         aria-label="前菜タブ" />
                   </Tooltip>
                   <Tooltip title="主菜（スープ・パスタ・リゾット）">
                     <Tab value={ 1 } label="Primo Piatto" id="tab-1" tabIndex="0"
-                         role="tab" aria-controls="tabpanel-1" aria-selected={ (toolBarTabValue === 1 ) ? "true" : "false" } />
+                         role="tab" aria-controls="tabpanel-1" aria-selected={ (toolBarTabValue === 1 ) ? "true" : "false" }
+                         aria-label="主菜（スープ・パスタ・リゾット）タブ" />
                   </Tooltip>
                   <Tooltip title="主菜（肉・魚料理）">
                     <Tab value={ 2 } label="Secondo Piatto" id="tab-2" tabIndex="0"
-                         role="tab" aria-controls="tabpanel-2" aria-selected={ (toolBarTabValue === 2 ) ? "true" : "false" } />
+                         role="tab" aria-controls="tabpanel-2" aria-selected={ (toolBarTabValue === 2 ) ? "true" : "false" }
+                         aria-label="主菜（肉・魚料理）タブ" />
                   </Tooltip>
                   <Tooltip title="デザート">
                     <Tab value={ 3 } label="Dolce" id="tab-3" tabIndex="0"
-                         role="tab" aria-controls="tabpanel-3" aria-selected={ (toolBarTabValue === 3 ) ? "true" : "false" } />
+                         role="tab" aria-controls="tabpanel-3" aria-selected={ (toolBarTabValue === 3 ) ? "true" : "false" }
+                         aria-label="デザートタブ" />
                   </Tooltip>
                 </Tabs>
               </Toolbar>
             </AppBar>
             { /* Content */ }
             <div id="tabpanel-0" hidden={ (toolBarTabValue !== 0 ) }
-                 role="tabpanel" aria-labelledby="tab-0">
+                 role="tabpanel" aria-labelledby="tab-0" aria-label="前菜パネル">
               <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 0 } />
             </div>
             <div id="tabpanel-1" hidden={ (toolBarTabValue !== 1 ) }
-                 role="tabpanel" aria-labelledby="tab-1">
+                 role="tabpanel" aria-labelledby="tab-1" aria-label="主菜（スープ・パスタ・リゾット）パネル">
               <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 1 } />
             </div>
             <div id="tabpanel-2" hidden={ (toolBarTabValue !== 2 ) }
-                 role="tabpanel" aria-labelledby="tab-2">
+                 role="tabpanel" aria-labelledby="tab-2" aria-label="主菜（肉・魚料理）パネル">
               <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 2 } />
             </div>
             <div id="tabpanel-3" hidden={ (toolBarTabValue !== 3 ) }
-                 role="tabpanel" aria-labelledby="tab-3">
+                 role="tabpanel" aria-labelledby="tab-3" aria-label="デザートパネル">
               <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
             </div>
           </div>
