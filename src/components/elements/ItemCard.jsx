@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography, Button, Checkbox, Grid } from '@material-ui/core';
 import { Card, CardContent, CardMedia, CardActions } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
 import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
 // FontAwesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -31,6 +32,9 @@ const SystemColor = {
 // スタイルの修正（このファイルのみ）
 const useStyles = makeStyles( ( theme: Theme ) =>
     createStyles( {
+        // Card
+        card: {
+        },
         // Card Content
         cardContent: {
             paddingTop: theme.spacing(2),
@@ -49,16 +53,28 @@ const useStyles = makeStyles( ( theme: Theme ) =>
         },
         // Card Subtitle
         cardSubtitle: {
-            marginBottom: 12,
             userSelect: 'none'
         },
         // Card Media
         cardMedia: {
-            height: 200
+            height: '35vh'
         },
         // Card Icon Text
         cardIconText: {
-            marginTop: theme.spacing( 1 )
+            marginTop: theme.spacing( 2 )
+        },
+        // Image (Details dialog)
+        img: {
+            display: 'block',
+            marginTop: 0,
+            marginRight: 'auto',
+            marginBottom: theme.spacing( 2 ),
+            marginLeft: 'auto',
+            width: '30vw'
+        },
+        // kcal
+        kcalText: {
+            marginTop: theme.spacing( 1 ),
         }
     })
 );
@@ -71,6 +87,7 @@ const ItemCard = (props) => {
 
     // States
     const [isCheckBoxChecked, setIsCheckBoxChecked] = useState( false );
+    const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState( false );
 
     // Contexts
     const { checked, setChecked } = useCheckedContext();
@@ -97,6 +114,16 @@ const ItemCard = (props) => {
         }
         setChecked(checkState);
     };
+    const handleDetailsDialogOpen = () => {
+        setIsDetailsDialogOpen(true);
+    };
+    const handleDetailsDialogClose = () => {
+        setIsDetailsDialogOpen(false);
+    };
+    const onDetailsButtonClicked = () => {
+        props.onClick(props.info.id);
+        handleDetailsDialogOpen();
+    };
 
     // Variables
 
@@ -110,51 +137,91 @@ const ItemCard = (props) => {
 
     //// Main
     return (
-        <Card elevation={ 4 }
-              component="article" role="article" aria-posinset={ props.posinset } aria-setsize={ props.setsize }
-              aria-label={ props.info.title + "のカード本体" }>
-          <section role="banner" aria-label={ props.info.title + "カードの情報セクション" }>
-            <CardMedia className={ classes.cardMedia } image={ props.info.image } title={ props.info.title }
-                       role="img" aria-label={ props.info.title + "のサムネイル画像" }/>
-            <CardContent className={ classes.cardContent }
-                         role="document" aria-label={ props.info.title + "の概要文章" }>
-              <Typography className={ classes.cardKind } color="textSecondary" gutterBottom
-                          aria-label={ props.info.title + "の種別テキスト" }>
-                { props.info.kind }
-              </Typography>
-              <Typography className={ classes.cardTitle } variant="h5" component="h2"
-                          aria-label={ props.info.title + "のタイトルテキスト" }>
+        <>
+          { /* Details Dialog */ }
+          <Dialog fullWidth={ true }
+                  maxWidth="sm"
+                  open={ isDetailsDialogOpen }
+                  onClose={ handleDetailsDialogClose }
+                  aria-labelledby="details-dialog-title" aria-label={ props.info.title + "の詳細ダイアログ" }>
+            <DialogTitle id="details-dialog-title"
+                         aria-label={ props.info.title + "の詳細ダイアログのタイトル" }>
+              <Typography align="center" color="textPrimary" variant="h4">
                 { props.info.title }
               </Typography>
-              <Typography className={ classes.cardSubtitle } color="textSecondary"
-                          aria-label={ props.info.title + "のサブタイトルテキスト" }>
+              <Typography align="center" color="textSecondary" variant="subtitle1"
+                          aria-label={ props.info.title + "の詳細ダイアログのサブタイトルテキスト" }>
                 { props.info.subtitle }
               </Typography>
-              <Typography variant="body2" component="p"
+            </DialogTitle>
+            <DialogContent aria-label={ props.info.title + "の詳細ダイアログの情報セクション"}>
+              <img className={ classes.img } src={ props.info.image } alt={ props.info.title }
+                   aria-label={ props.info.title + "の詳細ダイアログの画像" }/>
+              <Typography variant="body1" component="p"
+                          align="center"
                           aria-label={ props.info.title + "の概要説明テキスト" }>
                 { props.info.description }
               </Typography>
-              <Typography className={ classes.cardIconText } align="right" variant="subtitle2" component="p"
+              <Typography className={ classes.cardIconText } align="center" variant="subtitle2" component="p"
                           aria-label={ props.info.title + "の辛さレベルテキスト" }>
-                { pepperIcons }
+                辛さレベル：{ (pepperIcons.length > 0) ? pepperIcons : "なし" }
               </Typography>
-            </CardContent>
-          </section>
-          <CardActions role="form" aria-label={ props.info.title + "カードの操作セクション" }>
-            <Grid container spacing={ 2 } justify="space-between" alignItems="center">
-              <Grid item>
-                <Checkbox color="primary" inputProps={{ 'aria-label': props.info.title + 'の選択チェックボックス' }}
-                          checked={ isCheckBoxChecked } onChange={ onCheckBoxChanged } />
+              <Typography className={ classes.kcalText }
+                          align="center" variant="body2" component="p"
+                          aria-label={ props.info.title + "のカロリーテキスト" }>
+                { props.info.kcal + "kcal" }
+              </Typography>
+            </DialogContent>
+            <DialogActions style={ { justifyContent: 'center' } }
+                           aria-label={ props.info.title + "の詳細ダイアログの操作セクション"}>
+              <Button onClick={ handleDetailsDialogClose } color="primary" variant="contained"
+                      role="button" aria-label="詳細ダイアログの操作セクションの閉じるボタン">
+                閉じる
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Card elevation={ 4 } className={ classes.card }
+                component="article" role="article" aria-posinset={ props.posinset } aria-setsize={ props.setsize }
+                aria-label={ props.info.title + "のカード本体" }>
+            <section role="banner" aria-label={ props.info.title + "カードの情報セクション" }>
+              <CardMedia className={ classes.cardMedia } image={ props.info.image } title={ props.info.title }
+                         role="img" aria-label={ props.info.title + "のサムネイル画像" }/>
+              <CardContent className={ classes.cardContent }
+                           role="document" aria-label={ props.info.title + "の概要文章" }>
+                <Typography className={ classes.cardKind } color="textSecondary" gutterBottom
+                            aria-label={ props.info.title + "の種別テキスト" }>
+                  { props.info.kind }
+                </Typography>
+                <Typography className={ classes.cardTitle } variant="h5" component="h2"
+                            aria-label={ props.info.title + "のタイトルテキスト" }>
+                  { props.info.title }
+                </Typography>
+                <Typography className={ classes.cardSubtitle } color="textSecondary"
+                            aria-label={ props.info.title + "のサブタイトルテキスト" }>
+                  { props.info.subtitle }
+                </Typography>
+              </CardContent>
+            </section>
+            <CardActions role="form" aria-label={ props.info.title + "カードの操作セクション" }>
+              <Grid container spacing={ 2 } justify="space-between" alignItems="center">
+                <Grid item>
+                  <Checkbox color="primary" inputProps={{ 'aria-label': props.info.title + 'の選択チェックボックス' }}
+                            checked={ isCheckBoxChecked } onChange={ onCheckBoxChanged } />
+                  <Typography align="left" variant="body2" color="textPrimary" display="inline"
+                              style={ { verticalAlign: 'middle' } }>
+                    選択
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Button color="primary" variant="contained" size="medium" onClick={ onDetailsButtonClicked }
+                          role="button" aria-label={ props.info.title + "の詳細表示ボタン" }>
+                    詳しく
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Button variant="contained" size="small" onClick={ () => { props.onClick(props.info.id) } }
-                        role="button" aria-label={ props.info.title + "の詳細表示ボタン" }>
-                  詳しく
-                </Button>
-              </Grid>
-            </Grid>
-          </CardActions>
-        </Card>
+            </CardActions>
+          </Card>
+        </>
     );
 };
 
