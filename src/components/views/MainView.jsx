@@ -7,7 +7,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography, AppBar, Toolbar, Grid, Tab, Tabs, Tooltip } from '@material-ui/core';
 import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button } from '@material-ui/core';
-import { Fab } from '@material-ui/core';
+import { Fab, LinearProgress } from '@material-ui/core';
 import { grey, deepOrange, teal, amber } from '@material-ui/core/colors';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -122,6 +122,13 @@ const useStyles = makeStyles( ( theme: Theme ) =>
             bottom: theme.spacing( 3 ),
             right: theme.spacing( 3 ),
             width: 'auto'
+        },
+        // Progress
+        progress: {
+            position: 'fixed',
+            width: '100%',
+            bottom: 0,
+            left: 0
         }
     })
 );
@@ -137,6 +144,7 @@ const MainView = () => {
     const [isWelcomeDialogOpen, setIsWelcomeDialogOpen] = useState( true );
     const [isOrderConfirmDialogOpen, setIsOrderConfirmDialogOpen] = useState( false );
     const [isOrderFabEnabled, setIsOrderFabEnabled] = useState( false );
+    const [progress, setProgress] = React.useState( 0 );
 
     // Contexts
     const { checked, setChecked } = useCheckedContext();
@@ -144,9 +152,11 @@ const MainView = () => {
     // Effects
     useEffect(() => {
         let isAllSelected = true;
+        let checkedCount = checked.length;
         checked.forEach(checkedItem => {
             if (checkedItem <= 0) {
                 isAllSelected = false;
+                checkedCount--;
             }
         });
         if (isAllSelected) {
@@ -154,6 +164,7 @@ const MainView = () => {
         } else {
             setIsOrderFabEnabled(false);
         }
+        setProgress(100 * checkedCount / checked.length);
     }, [checked]);
 
     // Handlers
@@ -340,6 +351,10 @@ const MainView = () => {
                  role="tabpanel" aria-labelledby="tab-3" aria-label="デザートパネル">
               <MenuItemsGrid classes={ { gridContainer: classes.gridContainer } } itemsInfo={ MenuItemsInfo } kindId={ 3 } />
             </div>
+
+            { /* Progress bar */ }
+            <LinearProgress className={ classes.progress }
+                            variant="determinate" value={ progress } />
           </div>
         </ThemeProvider>
     );
