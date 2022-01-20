@@ -1,5 +1,5 @@
 // System
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // Material-UI
 //// Theme
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -15,7 +15,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // User
 import MenuItemsInfo from '../../MenuItemsInfo';
 import ItemCard from '../elements/ItemCard';
-
+import { useCheckedContext } from '../../CheckedContext';
 
 // Colors
 const SystemColor = {
@@ -119,8 +119,8 @@ const useStyles = makeStyles( ( theme: Theme ) =>
         // Floating action button
         fab: {
             position: 'absolute',
-            bottom: theme.spacing( 6 ),
-            right: theme.spacing( 6 ),
+            bottom: theme.spacing( 3 ),
+            right: theme.spacing( 3 ),
             width: 'auto'
         }
     })
@@ -133,9 +133,28 @@ const MainView = () => {
     const classes = useStyles();
 
     // States
-    const [toolBarTabValue, setToolBarTabValue] = React.useState( 0 );
-    const [isWelcomeDialogOpen, setIsWelcomeDialogOpen] = React.useState( true );
-    const [isOrderConfirmDialogOpen, setIsOrderConfirmDialogOpen] = React.useState( false );
+    const [toolBarTabValue, setToolBarTabValue] = useState( 0 );
+    const [isWelcomeDialogOpen, setIsWelcomeDialogOpen] = useState( true );
+    const [isOrderConfirmDialogOpen, setIsOrderConfirmDialogOpen] = useState( false );
+    const [isOrderFabEnabled, setIsOrderFabEnabled] = useState( false );
+
+    // Contexts
+    const { checked, setChecked } = useCheckedContext();
+
+    // Effects
+    useEffect(() => {
+        let isAllSelected = true;
+        checked.forEach(checkedItem => {
+            if (checkedItem <= 0) {
+                isAllSelected = false;
+            }
+        });
+        if (isAllSelected) {
+            setIsOrderFabEnabled(true);
+        } else {
+            setIsOrderFabEnabled(false);
+        }
+    }, [checked]);
 
     // Handlers
     const onClickItem = (id) => {
@@ -295,7 +314,9 @@ const MainView = () => {
             { /* Content */ }
             <Fab className={ classes.fab }
                  color="primary" variant="circular"
+                 zIndex={ 10000 }
                  onClick={ onClickOrderFab }
+                 disabled={ !isOrderFabEnabled }
                  aria-label="注文フロートボタン">
               <ExitToAppIcon style={ { paddingLeft: '4px' } } />
               <Typography align="center" color="white" variant="button"
