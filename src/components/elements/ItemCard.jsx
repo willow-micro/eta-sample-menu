@@ -74,7 +74,11 @@ const useStyles = makeStyles( ( theme: Theme ) =>
         },
         // kcal
         kcalText: {
-            marginTop: theme.spacing( 1 ),
+            marginTop: theme.spacing( 1 )
+        },
+        // Buttons on dialog
+        buttonOnDialog: {
+            marginBottom: theme.spacing( 1 )
         }
     })
 );
@@ -174,7 +178,8 @@ const ItemCard = (props) => {
             </DialogContent>
             <DialogActions style={ { justifyContent: 'center' } }
                            aria-label={ props.info.title + "の詳細ダイアログの操作セクション"}>
-              <Button onClick={ handleDetailsDialogClose } color="primary" variant="contained"
+              <Button className={ classes.buttonOnDialog }
+                      onClick={ handleDetailsDialogClose } color="primary" variant="contained"
                       role="button" aria-label="詳細ダイアログの操作セクションの閉じるボタン">
                 閉じる
               </Button>
@@ -215,7 +220,7 @@ const ItemCard = (props) => {
                 <Grid item>
                   <Button color="primary" variant="contained" size="medium" onClick={ onDetailsButtonClicked }
                           role="button" aria-label={ props.info.title + "の詳細表示ボタン" }>
-                    詳しく
+                    詳細を見る
                   </Button>
                 </Grid>
               </Grid>

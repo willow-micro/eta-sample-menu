@@ -111,9 +111,9 @@ const useStyles = makeStyles( ( theme: Theme ) =>
         // Grid Container
         gridContainer: {
             width: '100%',
-            marginTop: theme.spacing( 6 ),
+            marginTop: theme.spacing( 7 ),
             marginRight: theme.spacing( 0 ),
-            marginBottom: theme.spacing( 2 ),
+            marginBottom: theme.spacing( 1 ),
             marginLeft: theme.spacing( 0 )
         },
         // Floating action button
@@ -129,6 +129,10 @@ const useStyles = makeStyles( ( theme: Theme ) =>
             width: '100%',
             bottom: 0,
             left: 0
+        },
+        // Buttons on dialog
+        buttonOnDialog: {
+            marginBottom: theme.spacing( 1 )
         }
     })
 );
@@ -243,15 +247,16 @@ const MainView = () => {
               <DialogContentText align="center" color="textPrimary" variant="body1"
                                  aria-label="ウェルカムダイアログのテキスト">
                 当店のイタリアンコースは、4種の区分から1品ずつ、<br />
-                合わせて4品お選びいただく方式となっております。<br /> <br />
-                お望みの品を1品ずつ選び、チェックボックスに印をつけてくださいませ。 <br />
-                最後に右下のボタンを押すことで、注文を確定することができます。<br /> <br />
-                どうぞごゆっくりとお選びください。
+                合わせて4品をお選びいただく形となっております。<br /> <br />
+                お好みの品を1品ずつ選び、順番にチェックを入れてください。 <br />
+                4品の選択が終わると、右下のボタンから注文を確定することができます。<br /> <br />
+                どうぞごゆっくりとお選びくださいませ。
               </DialogContentText>
             </DialogContent>
             <DialogActions style={ { justifyContent: 'center' } }
                            aria-label="ウェルカムダイアログの操作セクション">
-              <Button onClick={ handleWelcomeDialogClose } color="primary" variant="contained"
+              <Button className={ classes.buttonOnDialog }
+                      onClick={ handleWelcomeDialogClose } color="primary" variant="contained"
                       role="button" aria-label="ウェルカムダイアログの注文開始ボタン">
                 注文を開始する
               </Button>
@@ -277,11 +282,13 @@ const MainView = () => {
             </DialogContent>
             <DialogActions style={ { justifyContent: 'center' } }
                            aria-label="注文確認ダイアログの操作セクション">
-              <Button onClick={ onClickOrderButton } color="primary" variant="contained"
+              <Button className={ classes.buttonOnDialog }
+                      onClick={ onClickOrderButton } color="primary" variant="contained"
                       role="button" aria-label="注文確認ダイアログの注文ボタン">
                 注文を確定する
               </Button>
-              <Button onClick={ handleOrderConfirmDialogClose } color="primary" variant="outlined"
+              <Button className={ classes.buttonOnDialog }
+                      onClick={ handleOrderConfirmDialogClose } color="primary" variant="outlined"
                       role="button" aria-label="注文確認ダイアログのキャンセルボタン">
                 キャンセル
               </Button>
@@ -354,7 +361,8 @@ const MainView = () => {
 
             { /* Progress bar */ }
             <LinearProgress className={ classes.progress }
-                            variant="determinate" value={ progress } />
+                            variant="determinate" value={ progress }
+                            aria-label="プログレスバー" />
           </div>
         </ThemeProvider>
     );
