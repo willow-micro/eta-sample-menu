@@ -144,7 +144,7 @@ const ItemCard = (props) => {
         <>
           { /* Details Dialog */ }
           <Dialog fullWidth={ true }
-                  maxWidth="sm"
+                  maxWidth="md"
                   open={ isDetailsDialogOpen }
                   onClose={ handleDetailsDialogClose }
                   aria-labelledby="details-dialog-title" aria-label={ props.info.title + "の詳細ダイアログ" }>
